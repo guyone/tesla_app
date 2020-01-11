@@ -1,0 +1,98 @@
+body {
+    background-color: #EAE2ED;
+}
+
+#footer {
+    padding: 10px;
+    text-align: center;
+    color: grey;
+    font-variant: small-caps;
+}
+
+.nav-back {
+    margin: 10px;
+    border-radius: 15px;
+    background-color: rgb(70, 70, 70);
+}
+
+.navbar .navbar-nav .nav-link {
+    color: #CAB7D2;
+    padding: 1rem 1rem;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+    color: white;
+    padding: 1rem 1rem;
+}
+
+.cont-back {
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 15px;
+    background-color: #CAB7D2;
+}
+
+.logo {
+    width: 200px;
+}
+
+.odometer {
+    padding: 10px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #A887B3;
+    width: auto;
+    margin: 10px;
+}
+
+.teslaLogo {
+    padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.model3Logo {
+    padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.teslaQS {
+    padding: 10px;
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+.teslaTitle {
+    font-weight: bold;
+}
+
+.teslaName {
+    font-variant: small-caps;
+}
+
+.teslaT {
+    padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 10%;
+}
+
+.register {
+    text-align: center;
+    padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    background-color: #A887B3;
+    border-radius: 15px;
+}
+.register.box {
+    padding: 5px;
+}

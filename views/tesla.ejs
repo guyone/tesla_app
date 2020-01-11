@@ -1,0 +1,129 @@
+<%- include ('partials/header') %>
+
+<div>
+    <div>
+        <img class="teslaLogo" src="img/tesla-logo.png">
+    </div>
+    <div>
+        <img class="model3Logo" src="img/tesla-model3.png">
+    </div>
+    <div class="teslaQS">
+        <div class="teslaName">
+            <span>
+                <H1>Welcome to <%= teslaData["response"]["display_name"] %>'s homepage!</H1>
+            </span>
+        </div>
+        <div class="teslaVIN">
+            <span>
+                <span class="teslaTitle">VIN:</span> <%= teslaData["response"]["vin"] %>
+            </span>
+        </div>
+        <div class="TeslaOdometer">
+            <span>
+                <span class="teslaTitle">Odometer:</span> <%= Math.round(teslaData["response"]["vehicle_state"]["odometer"] * 1.609344) %> km
+            </span>
+        </div>
+        <div class="teslaSoftware">
+            <span>
+                <span class="teslaTitle">Software Version:</span> <%= teslaData["response"]["vehicle_state"]["car_version"] %>
+            </span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm odometer">
+                <h3>Odometer</h3>
+                <p><%= Math.round(teslaData["response"]["vehicle_state"]["odometer"] * 1.609344) %> km</p>
+            </div>
+            <div class="col-sm odometer">
+                <h3>Battery Stats</h3>
+                <div>
+                    <span><%= teslaData["response"]["charge_state"]["usable_battery_level"] %>%</span>
+                </div>
+                <div>
+                    <% if (teslaData["response"]["charge_state"]["charging_state"] === "Disconnected"){ %>
+                        <span class="teslaTitle">Charging status:</span><span> not charging.</span>
+                    <% } else if (teslaData["response"]["charge_state"]["charging_state"] === "Complete"){ %>
+                        <span class="teslaTitle">Charging status:</span><span> complete.</span>
+                    <% } else if (teslaData["response"]["charge_state"]["charging_state"] === "Stopped"){ %>
+                        <span class="teslaTitle">Charging status:</span><span> stopped.</span>
+                    <% } else if (teslaData["response"]["charge_state"]["battery_level"] === teslaData["response"]["charge_state"]["charge_limit_soc"]){ %>
+                        <span class="teslaTitle">Charging status:</span><span> fully charged.</span>
+                    <% } else { %>
+                        <span class="teslaTitle">Charge time: </span><span id="chargeTime"></span><span>.</span>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="col-sm odometer">
+                <h3>Temperature</h3>
+                <div>
+                    <span class="teslaTitle">Outside is: </span><span><%= teslaData["response"]["climate_state"]["outside_temp"] %> °C</span>
+                </div>
+                <div>
+                    <span class="teslaTitle">Inside <%= teslaData["response"]["display_name"] %> is: </span><span><%= teslaData["response"]["climate_state"]["inside_temp"] %> °C</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm odometer">
+        <h3>Current Location</h3>
+        <p><%= teslaData["response"]["drive_state"]["latitude"] %>, <%= teslaData["response"]["drive_state"]["longitude"] %></p>
+
+        <div>
+            <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=<%= teslaData["response"]["drive_state"]["latitude"] %>,<%= teslaData["response"]["drive_state"]["longitude"] %>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+        </div>
+    </div>
+    <div class="col-sm odometer">
+        <h3>Software Information</h3>
+        <% if (teslaData["response"]["vehicle_state"]["software_update"]["status"] == "") { %>
+            <p> <%= teslaData["response"]["display_name"] %> is up to date with software version: <%= teslaData["response"]["vehicle_state"]["car_version"] %></p>
+        <% } else { %>
+            <p>There is a software update! Please update for new features!</p>
+            <% } %>
+    </div>
+    <% if (teslaData["response"]["vehicle_state"]["sentry_mode"] === true){ %>
+        <p>Sentry mode is active</p>
+        <% } else { %>
+            <p>Sentry mode is currently deactivated</p>
+        <% } %>
+</div>
+<h4>Things to add:</h4>
+<ul>
+    <li>Display when the car is not charging, battery full and how much time left to charge</li>
+    <li>Software update button to activate software update</li>
+    <li>A map showing the location of the car</li>
+        <ul>
+            <li>Currently an embedded iFrame. Is this good enough?</li>
+        </ul>
+    <li>Allow people to sign up.</li>
+    <ul>
+        <li>This saves to an encrypted blockchain</li>
+        <li>Log in for people to log in and see their own car</li>
+    </ul>
+
+    <li>Deactivate sentry mode</li>
+</ul>
+
+<div>
+    <img class="teslaT" src="img/tesla-t.png">
+</div>
+
+<script>
+    
+    function timeConvert() {
+    var num = <%- teslaData["response"]["charge_state"]["minutes_to_full_charge"] %>;
+    var hours = (num / 60);
+    var rhours = Math.floor(hours);
+    var minutes = (hours - rhours) * 60;
+    var rminutes = Math.round(minutes);
+    return rhours + " hour(s) and " + rminutes + " minute(s)";
+    }
+    
+    var chargeTime = timeConvert();
+    
+    document.getElementById("chargeTime").innerHTML = timeConvert();
+    
+</script>
+
+<%- include ('partials/footer') %>
